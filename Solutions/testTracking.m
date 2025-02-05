@@ -2,7 +2,7 @@
 h = uifigure;
 %Configure Tracker.  Switching between different tracker types reruns the section.
 trackerChoice = "JPDA";
-tracker = helperChooseTracker(trackerChoice);
+tracker = helperChooseTracker_Ex3Bonus(trackerChoice);
 %Establish map origin and create trackingGlobeViewer object.
 mapOrigin = [42.39423231362 -70.95934958874 0];
 
@@ -14,7 +14,8 @@ mapOrigin = [42.39423231362 -70.95934958874 0];
 % type "doc trackingGlobeViewer" in the Command Window to find the documentation page for this function
 gViewer = trackingGlobeViewer(h,'ReferenceLocation',mapOrigin);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+gViewer.NumCovarianceSigma = 0; % Remove uncertainties on detections and tracks
+ 
 %Adjust the camera to view the area of interest:
 campos(gViewer,[37.2337 -91.6920 5.5488e+06]);
 %Plot truthTrajectory for reference:
