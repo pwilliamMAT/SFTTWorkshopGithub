@@ -22,6 +22,12 @@ for n = 1:length(time)
     % Make state prediction using predict method of the filter
     [pstates(n,:), pCov(:,:,n)]  = predict(filter,deltaT);
 
+    filter.MeasurementNoise = detectionMeasurementNoise;
+
+    % Log the Distance Value -> dn = d2 + log(|S|)
+    % See Algorithm Defintiion here: https://www.mathworks.com/help/fusion/ref/trackingekf.distance.html?s_tid=srchtitle_support_results_4_distance#mw_b0a1e319-2a1f-4486-b99c-f004de782d15
+    logDist = distance(filter, detectionPosition(:,n)');
+
     % Correct estimate using detections and the correct method of the filter
     [cstates(n,:), cCov(:,:,n)] = correct(filter, detectionPosition(:,n)');
     
