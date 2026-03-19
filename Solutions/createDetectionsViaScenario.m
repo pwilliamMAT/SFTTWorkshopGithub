@@ -95,10 +95,15 @@ while advance(scene)
     [dets1, configs] = detect(scene);
     %[dets2,numDets,config] = radar1(scene.platformPoses,scene.SimulationTime);
     detBuffer = [detBuffer; dets1]; %#ok<AGROW>
-    plotDetection(gViewer,detBuffer,'ECEF');
+    plotDetection(gViewer,dets1,'ECEF');
 
     % Pause so you can visualize detections as they are plotted
     %pause(0.1)
 
     %detBuffer = {};
+    drawnow;
+    
 end
+
+% Plot all detections on viewer
+plotDetection(gViewer,detBuffer,'ECEF')
