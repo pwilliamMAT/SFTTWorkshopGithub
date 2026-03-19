@@ -3,6 +3,25 @@ function helperPlotScenarioAndDetections(dataLog)
 % the data log should contain the true position of the track objects and the
 % detections received at each time
 
+% hfig = figure;
+% hfig.Position =  [614   365   631   529];
+% hfig.Visible = 'on';
+% hfig.Color = [1 1 1];
+% tpaxes = axes(hfig);
+% grid(tpaxes,'on')
+% title(tpaxes,'Targets and detections')
+% tp = theaterPlot('Parent',tpaxes,'AxesUnits',["km" "km" "km"],'XLimits',[-2000 2000], 'YLimits',[-20500 -17000]);
+% detp = detectionPlotter(tp,'DisplayName','Detections','MarkerSize',6,'MarkerFaceColor',[0.85 0.325 0.098],'MarkerEdgeColor','k','History',1000);
+% platp = platformPlotter(tp,'DisplayName','Targets','MarkerFaceColor','k');
+% trajp = trajectoryPlotter(tp,'DisplayName','Trajectory');
+% % move legend inside
+% hfig.Children(1).Location = "northeast";
+% 
+% % plot full target trajectories
+% trajectory{1} = vertcat(dataLog.Truth(1,:).Position);
+% trajectory{2} = vertcat(dataLog.Truth(2,:).Position);
+% trajp.plotTrajectory(trajectory);
+
 % trackingGlobeViewer
 scenario = trackingScenario;
 origin = [42.366978, -71.022362, 50];
@@ -29,13 +48,15 @@ for t=1:numel(dataLog.Time)
     % update detection position
     detections = dataLog.Detections{t};
     allDets = [detections{:}];
-    plotDetection(mapViewer,allDets);
-    
-    % update position of truth
-    % plotPlatform(mapViewer,scenario.Platforms) % Needs scenario update
-
-    % Log dets for final plotting
     detLog = [detLog allDets];
+    % meas = cat(2,allDets.Measurement);
+    % measCov = cat(3,allDets.MeasurementNoise);
+    % detp.plotDetection(meas',measCov);
+    plotDetection(mapViewer,allDets);
+    % update position of truth
+    %truePos = vertcat(dataLog.Truth(:,t).Position);
+    %platp.plotPlatform(truePos);
+    % plotPlatform(mapViewer,scenario.Platforms) % Needs scenario update
     drawnow
 end
 
